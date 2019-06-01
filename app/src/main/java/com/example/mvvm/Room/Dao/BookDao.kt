@@ -19,7 +19,13 @@ interface BookDao {
     @Query("delete from book")
     fun deleteAllBooks()
 
+    @Query("select * from book where favorite=:favorite")
+    fun getFavoritesBooks(favorite:Int):LiveData<List<Book>>
+
     @Query("update book set favorite = :favorite where id = :id")
-    suspend fun updateFavoriteState(id:Int, favorite:Boolean)
+    suspend fun updateFavoriteState(id:Int, favorite:Int)
+
+    @Query("select * from book where name like :nameBook")
+    fun getByName(nameBook: String):LiveData<List<Book>>
 
 }

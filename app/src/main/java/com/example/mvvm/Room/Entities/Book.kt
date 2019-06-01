@@ -7,8 +7,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "book")
 data class Book(
 
-    @PrimaryKey(autoGenerate = true)
-    var id:Int,
 
     @ColumnInfo(name = "name")
     var name:String,
@@ -17,5 +15,9 @@ data class Book(
     var editorial:String,
 
     @ColumnInfo(name = "favorite")
-    var favorite:Boolean = false
-)
+    var favorite:Int = 0
+){
+
+    @PrimaryKey(autoGenerate = true)
+    var id:Int = 0
+}

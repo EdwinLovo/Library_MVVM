@@ -9,7 +9,7 @@
         android:id="@+id/destination_library"
         android:name="com.example.mvvm.Fragments.LibraryFragment"
         android:label="Library"
-        tools:layout="@layout/fragment_library" >
+        tools:layout="@layout/fragment_library">
         <action
             android:id="@+id/next_action"
             app:destination="@id/destination_book" />
@@ -26,17 +26,21 @@
             android:name="editorial"
             app:argType="string" />
         <argument
-            android:name="author"
-            app:argType="string" />
-        <argument
             android:name="favorite"
-            app:argType="boolean" />
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/destination_new_book"
         android:name="com.example.mvvm.Fragments.NewBookFragment"
         android:label="Add Book"
         tools:layout="@layout/fragment_new_book" />
-    <fragment android:id="@+id/destination_favorites" android:name="com.example.mvvm.Fragments.FavoritesFragment"
-              android:label="Favorites" tools:layout="@layout/fragment_favorites"/>
+    <fragment
+        android:id="@+id/destination_favorites"
+        android:name="com.example.mvvm.Fragments.FavoritesFragment"
+        android:label="Favorites"
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/next_action"
+            app:destination="@id/destination_book" />
+    </fragment>
 </navigation>

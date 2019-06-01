@@ -4,42 +4,39 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvm.R
-import com.example.mvvm.Room.Entities.Author
 import com.example.mvvm.Room.Entities.Book
-import com.example.mvvm.Room.Entities.BookAuthor
 import kotlinx.android.synthetic.main.book_info.view.*
-import kotlinx.android.synthetic.main.fragment_library.view.*
 
-class LibraryAdapter internal constructor(context: Context): RecyclerView.Adapter<LibraryAdapter.ViewHolder>(){
+abstract  class LibraryAdapter internal constructor(context: Context): RecyclerView.Adapter<LibraryAdapter.LibraryViewHolder>(){
 
     private val inflater = LayoutInflater.from(context)
     private var books = emptyList<Book>()
-    private var authors = emptyList<Author>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    abstract fun setClickListenerToBook(holderLibrary: LibraryViewHolder, book: Book)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibraryViewHolder {
         val itemView = inflater.inflate(R.layout.book_info, parent, false)
-        return ViewHolder(itemView)
+        return LibraryViewHolder(itemView)
     }
 
     override fun getItemCount() = books.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holderLibrary: LibraryViewHolder, position: Int) {
         val currentBook = books[position]
-        var author = ""
 
-        holder.name.text = currentBook.name
-        holder.editorial.text = currentBook.editorial
-        holder.favorite.text = currentBook.favorite.toString()
+        holderLibrary.name.text = currentBook.name
+        holderLibrary.editorial.text = currentBook.editorial
 
-        authors.forEach {
-            author = author + ", " + it.name
+        if (currentBook.favorite==1){
+            holderLibrary.checkBox.isChecked = true
         }
 
-        holder.author.text = author
-
+        setClickListenerToBook(holderLibrary,currentBook)
     }
 
     internal fun setBooks(books:List<Book>){
@@ -47,16 +44,11 @@ class LibraryAdapter internal constructor(context: Context): RecyclerView.Adapte
         notifyDataSetChanged()
     }
 
-    internal fun setAuthors(authors:List<Author>){
-        this.authors = authors
-        notifyDataSetChanged()
-    }
-
-    inner class ViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
+    inner class LibraryViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
         val name:TextView = itemView.name
-        val author:TextView = itemView.author
         val editorial:TextView = itemView.editorial
-        val favorite:TextView = itemView.favorite
+        val container:LinearLayout = itemView.bookContainer
+        val checkBox:CheckBox = itemView.checkbox_book
     }
 
 }
